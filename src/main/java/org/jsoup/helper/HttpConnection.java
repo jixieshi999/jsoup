@@ -471,6 +471,12 @@ public class HttpConnection implements Connection {
 
                     res.byteData = DataUtil.readToByteBuffer(bodyStream, req.maxBodySize());
                     res.charset = DataUtil.getCharsetFromContentType(res.contentType); // may be null, readInputStream deals with it
+					
+                    //here add request charset to prase error encode content
+                    if(null==res.charset){
+                        res.charset = req.header("Charset");
+                    }
+
                 } finally {
                     if (bodyStream != null) bodyStream.close();
                     if (dataStream != null) dataStream.close();
